@@ -1,0 +1,14 @@
+<launch>
+    <arg name="bag_path" default="$(find bags_and_playback)/bags/glennan_5_basic.bag"/>
+
+    <include file="$(find navvis_description)/launch/display.launch">
+        <arg name="package_path" default="$(find bags_and_playback)" />
+        <arg name="use_xacro" value="true"/>
+        <arg name="file" value="$(find bags_and_playback)/urdf/hardware.xacro"/>
+        <arg name="use_gui" value="false"/>
+        <arg name="use_robot_state_publisher" value="true"/>
+    </include>
+
+    <node pkg="rosbag" type="play" name="rosbag" args="$(arg bag_path) /tf_trajectory:=/tf --clock"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find maps_glennan)/maps/glennan5_map.yaml"/>
+</launch>
